@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mom's Important Notes</title>
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & RESET (Warm, High-Contrast, Accessible Theme)
+       ========================================================================== */
+    :root {
+      --bg-cream: #FAF6F0;
+      --surface-white: #FFFFFF;
+      --text-primary: #1F2421;
+      --text-secondary: #4A524D;
+      --border-subtle: #E2DBD0;
+      --border-strong: #C5BBAE;
+
+      /* Primary Action Colors */
+      --primary-teal: #1B6B5C;
+      --primary-teal-hover: #145246;
+      --primary-teal-light: #E6F2EF;
+
+      /* Pin / Urgent Accent */
+      --pin-amber-bg: #FFF9EB;
+      --pin-amber-border: #E6B84C;
+      --pin-amber-text: #8A5A00;
+
+      /* Category Badge Colors (High Contrast) */
+      --cat-medical-bg: #FDECEC;
+      --cat-medical-text: #9E1C1C;
+      --cat-home-bg: #E8F1FA;
+      --cat-home-text: #164E87;
+      --cat-family-bg: #EAF6EC;
+      --cat-family-text: #1A6329;
+      --cat-accounts-bg: #F3ECFA;
+      --cat-accounts-text: #59258C;
+
+      /* Danger / Delete */
+      --danger-red: #B81D1D;
+      --danger-red-bg: #FDECEC;
+
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow-card: 0 3px 10px rgba(31, 36, 33, 0.06);
+      --shadow-modal: 0 12px 32px rgba(31, 36, 33, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-primary);
+      font-size: 19px; /* Extra legible base font size */
+      line-height: 1.55;
+      padding-bottom: 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       2. LAYOUT & HEADER
+       ========================================================================== */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    header.top-bar {
+      background-color: var(--surface-white);
+      border-bottom: 2px solid var(--border-subtle);
+      padding: 20px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .header-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .app-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .app-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Buttons - Large Touch Targets (Minimum 48px height) */
+    button {
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: var(--radius-md);
+      min-height: 48px;
+      padding: 10px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid var(--primary-teal);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-teal);
+      color: #FFFFFF;
+      font-size: 19px;
+      padding: 12px 22px;
+      box-shadow: 0 3px 8px rgba(27, 107, 92, 0.25);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-teal-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--surface-white);
+      color: var(--text-primary);
+      border: 2px solid var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      background-color: #F2EDE4;
+    }
+
+    /* ==========================================================================
+       3. SEARCH BAR & CATEGORY PILLS
+       ========================================================================== */
+    .controls-section {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .search-wrapper {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .search-input-box {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      font-size: 20px;
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 16px 12px 46px;
+      font-family: inherit;
+      font-size: 19px;
+      color: var(--text-primary);
+      background-color: var(--surface-white);
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-md);
+    }
+
+    #searchInput::placeholder {
+      color: #6C7570;
+    }
+
+    .category-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-right: 4px;
+    }
+
+    .pill-btn {
+      border-radius: var(--radius-pill);
+      background-color: var(--surface-white);
+      color: var(--text-primary);
+      border: 2px solid var(--border-subtle);
+      padding: 10px 20px;
+      font-size: 18px;
+      min-height: 48px;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--border-strong);
+      background-color: #F4EFE6;
+    }
+
+    .pill-btn.active {
+      background-color: var(--text-primary);
+      color: #FFFFFF;
+      border-color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       4. NOTES GRID & CARDS
+       ========================================================================== */
+    .section-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin: 28px 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 20px;
+    }
+
+    .note-card {
+      background-color: var(--surface-white);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .note-card.pinned {
+      background-color: var(--pin-amber-bg);
+      border: 2px solid var(--pin-amber-border);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 5px 13px;
+      border-radius: var(--radius-pill);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .cat-Medical {
+      background-color: var(--cat-medical-bg);
+      color: var(--cat-medical-text);
+    }
+
+    .cat-Home {
+      background-color: var(--cat-home-bg);
+      color: var(--cat-home-text);
+    }
+
+    .cat-Family {
+      background-color: var(--cat-family-bg);
+      color: var(--cat-family-text);
+    }
+
+    .cat-Accounts {
+      background-color: var(--cat-accounts-bg);
+      color: var(--cat-accounts-text);
+    }
+
+    .pin-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--pin-amber-text);
+      background-color: #FDECC2;
+      padding: 4px 11px;
+      border-radius: var(--radius-pill);
+    }
+
+    .note-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-top: 10px;
+      line-height: 1.3;
+    }
+
+    .note-body {
+      font-size: 19px;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      word-break: break-word;
+      background-color: rgba(255, 255, 255, 0.65);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      margin-top: 10px;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-copy {
+      flex: 1 1 auto;
+      background-color: var(--primary-teal-light);
+      color: var(--primary-teal);
+      border: 2px solid #B8DCD4;
+      font-weight: 700;
+    }
+
+    .btn-copy:hover {
+      background-color: #D4EAE5;
+    }
+
+    .btn-copy.copied {
+      background-color: #1F7A3E;
+      color: #FFFFFF;
+      border-color: #1F7A3E;
+    }
+
+    .btn-icon-action {
+      background-color: var(--surface-white);
+      color: var(--text-primary);
+      border: 2px solid var(--border-subtle);
+      padding: 8px 13px;
+      font-size: 16px;
+    }
+
+    .btn-icon-action:hover {
+      background-color: #F2EDE4;
+      border-color: var(--border-strong);
+    }
+
+    .btn-delete:hover {
+      background-color: var(--danger-red-bg);
+      color: var(--danger-red);
+      border-color: #E8B4B4;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      background-color: var(--surface-white);
+      border: 2px dashed var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 44px 20px;
+      margin-top: 20px;
+    }
+
+    .empty-state p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* ==========================================================================
+       5. MODAL DIALOG (Add / Edit Note & Delete Confirmation)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(25, 30, 27, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background-color: var(--surface-white);
+      width: 100%;
+      max-width: 560px;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-modal);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .form-control {
+      width: 100%;
+      font-family: inherit;
+      font-size: 19px;
+      padding: 12px 14px;
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      background-color: #FFFFFF;
+      color: var(--text-primary);
+    }
+
+    textarea.form-control {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--pin-amber-bg);
+      border: 2px solid var(--pin-amber-border);
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--primary-teal);
+      cursor: pointer;
+    }
+
+    .checkbox-row span {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .error-msg {
+      color: var(--danger-red);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* ==========================================================================
+       6. SUBTLE FOOTER
+       ========================================================================== */
+    footer.app-footer {
+      max-width: 1140px;
+      margin: 48px auto 0 auto;
+      padding: 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      text-decoration: underline;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 6px 10px;
+      min-height: 40px;
+    }
+
+    .link-btn:hover {
+      color: var(--text-primary);
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    /* ==========================================================================
+       7. FULL-SCREEN PASSWORD LOCK GATE & SECURITY CONTROLS
+       ========================================================================== */
+    .lock-screen-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: var(--bg-cream);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .lock-screen-overlay.hidden {
+      display: none;
+    }
+
+    .lock-card {
+      background-color: var(--surface-white);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: var(--shadow-modal);
+    }
+
+    .lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--primary-teal-light);
+      color: var(--primary-teal);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 14px;
+    }
+
+    .lock-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .lock-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+    }
+
+    .password-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .password-input-row .form-control {
+      flex: 1;
+      min-height: 54px;
+    }
+
+    .btn-toggle-pw {
+      min-width: 84px;
+      background-color: #F4EFE6;
+      color: var(--text-primary);
+      border: 2px solid var(--border-strong);
+      font-size: 17px;
+      padding: 0 14px;
+    }
+
+    .btn-toggle-pw:hover {
+      background-color: #E8E0D3;
+    }
+
+    .hint-box {
+      background-color: var(--pin-amber-bg);
+      border: 2px solid var(--pin-amber-border);
+      color: var(--pin-amber-text);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .lock-helper-row {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-lock {
+      background-color: #F4EFE6;
+      color: var(--text-primary);
+      border: 2px solid var(--border-strong);
+      font-size: 18px;
+      padding: 10px 18px;
+    }
+
+    .btn-lock:hover {
+      background-color: #E8DFD1;
+    }
+
+    @media (max-width: 600px) {
+      .app-title {
+        font-size: 24px;
+      }
+      .header-actions {
+        width: 100%;
+      }
+      .header-actions button {
+        flex: 1 1 auto;
+      }
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-footer button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full-Screen Password Lock Gate -->
+  <div class="lock-screen-overlay" id="lockScreen" role="dialog" aria-modal="true" aria-labelledby="lockScreenTitle">
+    <div class="lock-card">
+      <div class="lock-badge">&#128274; Private &amp; Encrypted</div>
+      <h1 class="lock-title" id="lockScreenTitle">Mom's Important Notes</h1>
+      <p class="lock-desc" id="lockScreenDesc">
+        Create a secret password to keep phone numbers, codes, and logins safe on this device.
+      </p>
+
+      <p class="error-msg" id="lockErrorMsg"></p>
+      <div class="hint-box" id="hintDisplayBox"></div>
+
+      <!-- First-Time Setup Form -->
+      <form id="setupPasswordForm" style="display: none;">
+        <div class="form-group">
+          <label for="setupPwInput">Create a Secret Password</label>
+          <div class="password-input-row">
+            <input
+              type="password"
+              id="setupPwInput"
+              class="form-control"
+              placeholder="Enter new password"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="btn-toggle-pw" data-target="setupPwInput">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="setupConfirmInput">Confirm Password</label>
+          <div class="password-input-row">
+            <input
+              type="password"
+              id="setupConfirmInput"
+              class="form-control"
+              placeholder="Type password again"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="btn-toggle-pw" data-target="setupConfirmInput">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="setupHintInput">Password Hint (optional)</label>
+          <input
+            type="text"
+            id="setupHintInput"
+            class="form-control"
+            placeholder="e.g., First dog's name or favorite flower"
+          />
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; min-height: 54px;">
+          &#128275; Save Password &amp; Open Notes
+        </button>
+
+        <div class="lock-helper-row" style="justify-content: center;">
+          <button type="button" class="link-btn" id="quickDemoPwBtn">
+            Use quick demo password (1234)
+          </button>
+        </div>
+      </form>
+
+      <!-- Returning Unlock Form -->
+      <form id="unlockPasswordForm" style="display: none;">
+        <div class="form-group">
+          <label for="unlockPwInput">Enter Password to Unlock</label>
+          <div class="password-input-row">
+            <input
+              type="password"
+              id="unlockPwInput"
+              class="form-control"
+              placeholder="Enter your secret password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="btn-toggle-pw" data-target="unlockPwInput">Show</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; min-height: 54px;">
+          &#128275; Unlock Notes
+        </button>
+
+        <div class="lock-helper-row">
+          <button type="button" class="link-btn" id="showHintBtn" style="display: none;">
+            Show Hint
+          </button>
+          <button type="button" class="link-btn" id="forgotResetBtn">
+            Forgot Password / Reset App
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Protected Application Shell (Hidden until unlocked) -->
+  <div id="appShell" style="display: none;">
+    <!-- Top Header Bar -->
+    <header class="top-bar">
+      <div class="header-inner">
+        <div>
+          <h1 class="app-title">&#128221; Mom's Important Notes</h1>
+          <p class="app-subtitle">Everything important in one easy-to-read place</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn-lock" id="lockNowBtn">
+            &#128274; Lock Notes
+          </button>
+          <button type="button" class="btn-primary" id="openAddModalBtn">
+            &#43; Add Important Note
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Single-Screen Dashboard -->
+    <main class="container">
+      <!-- Search & Quick Filter Pills -->
+      <section class="controls-section" aria-label="Search and filter notes">
+        <div class="search-wrapper">
+          <div class="search-input-box">
+            <span class="search-icon" aria-hidden="true">&#128269;</span>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Type to search (e.g., Wi-Fi, Patel, plumber, gate)..."
+              aria-label="Search notes"
+            />
+          </div>
+          <button type="button" class="btn-secondary" id="clearSearchBtn" style="display: none;">
+            Clear
+          </button>
+        </div>
+
+        <div class="category-bar" role="group" aria-label="Filter by category">
+          <span class="filter-label">Show:</span>
+          <button type="button" class="pill-btn active" data-category="All">All</button>
+          <button type="button" class="pill-btn" data-category="Medical">Medical</button>
+          <button type="button" class="pill-btn" data-category="Home & Wi-Fi">Home &amp; Wi-Fi</button>
+          <button type="button" class="pill-btn" data-category="Family & Contacts">Family &amp; Contacts</button>
+          <button type="button" class="pill-btn" data-category="Accounts">Accounts</button>
+        </div>
+      </section>
+
+      <!-- Notes Display Area -->
+      <section aria-live="polite">
+        <div id="pinnedSection" style="display: none;">
+          <h2 class="section-heading">&#11088; Pinned / Urgent Notes</h2>
+          <div class="notes-grid" id="pinnedGrid"></div>
+        </div>
+
+        <div id="regularSection">
+          <h2 class="section-heading" id="regularHeading">All Notes</h2>
+          <div class="notes-grid" id="regularGrid"></div>
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <p id="emptyMessage">No notes match your search.</p>
+          <button type="button" class="btn-secondary" id="resetFiltersBtn">Show All Notes</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer with Change Password, Auto-Lock Info & Reset Demo Data -->
+    <footer class="app-footer">
+      <span>Encrypted on this device &bull; Auto-locks after 5 min idle.</span>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button type="button" class="link-btn" id="openChangePwBtn">Change Password</button>
+        <button type="button" class="link-btn" id="resetDemoBtn">Reset Demo Data</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Add / Edit Note Modal -->
+  <div class="modal-backdrop" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalHeading">Add Important Note</h2>
+        <button type="button" class="btn-secondary" id="closeModalBtn" aria-label="Close window" style="padding: 6px 14px;">
+          &#10005; Close
+        </button>
+      </div>
+
+      <p class="error-msg" id="formError">Please enter both a title and note details.</p>
+
+      <form id="noteForm">
+        <input type="hidden" id="noteIdInput" />
+
+        <div class="form-group">
+          <label for="noteTitleInput">Title (What is this note about?)</label>
+          <input
+            type="text"
+            id="noteTitleInput"
+            class="form-control"
+            placeholder="e.g., Front Door Keypad Code"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="noteCategoryInput">Category</label>
+          <select id="noteCategoryInput" class="form-control">
+            <option value="Home & Wi-Fi">Home &amp; Wi-Fi</option>
+            <option value="Medical">Medical</option>
+            <option value="Family & Contacts">Family &amp; Contacts</option>
+            <option value="Accounts">Accounts</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="noteContentInput">Note Details (Numbers, passwords, instructions)</label>
+          <textarea
+            id="noteContentInput"
+            class="form-control"
+            placeholder="Write the phone number, password, or details clearly here..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-row" for="notePinnedInput">
+            <input type="checkbox" id="notePinnedInput" />
+            <span>&#11088; Pin to top (Keep this card highlighted first)</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Save Note</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal-backdrop" id="changePwModal" role="dialog" aria-modal="true" aria-labelledby="changePwHeading">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="changePwHeading">Change Secret Password</h2>
+        <button type="button" class="btn-secondary" id="closeChangePwBtn" aria-label="Close window" style="padding: 6px 14px;">
+          &#10005; Close
+        </button>
+      </div>
+
+      <p class="error-msg" id="changePwError"></p>
+
+      <form id="changePwForm">
+        <div class="form-group">
+          <label for="currentPwInput">Current Password</label>
+          <div class="password-input-row">
+            <input type="password" id="currentPwInput" class="form-control" autocomplete="current-password" required />
+            <button type="button" class="btn-toggle-pw" data-target="currentPwInput">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newPwInput">New Password</label>
+          <div class="password-input-row">
+            <input type="password" id="newPwInput" class="form-control" autocomplete="new-password" required />
+            <button type="button" class="btn-toggle-pw" data-target="newPwInput">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmNewPwInput">Confirm New Password</label>
+          <div class="password-input-row">
+            <input type="password" id="confirmNewPwInput" class="form-control" autocomplete="new-password" required />
+            <button type="button" class="btn-toggle-pw" data-target="confirmNewPwInput">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="updateHintInput">Password Hint (optional)</label>
+          <input type="text" id="updateHintInput" class="form-control" placeholder="e.g., First dog's name" />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelChangePwBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Simple Confirmation Modal (Replaces browser confirm/alert) -->
+  <div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmHeading">
+    <div class="modal-box" style="max-width: 460px;">
+      <h2 class="modal-title" id="confirmHeading" style="margin-bottom: 12px;">Are you sure?</h2>
+      <p id="confirmText" style="font-size: 19px; color: var(--text-secondary); margin-bottom: 24px;">
+        Do you want to remove this note?
+      </p>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="confirmCancelBtn">No, Keep It</button>
+        <button type="button" class="btn-primary" id="confirmYesBtn" style="background-color: var(--danger-red);">
+          Yes, Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ========================================================================
+         1. PRE-LOADED REALISTIC DEMO DATA
+         ======================================================================== */
+      const STORAGE_KEY = "moms_important_notes_v1";
+      const AUTH_STORAGE_KEY = "moms_important_notes_auth_v1";
+      const IDLE_LOCK_MS = 5 * 60 * 1000; // 5 minutes auto-lock
+
+      const DEMO_NOTES = [
+        {
+          id: "note-1",
+          title: "Wi-Fi & Gate Code",
+          category: "Home & Wi-Fi",
+          content: "Wi-Fi Network: MapleHouse_5G\nWi-Fi Password: SunnyGarden2026!\nFront Gate Keypad Code: #4819 (press # first)",
+          pinned: true
+        },
+        {
+          id: "note-2",
+          title: "Dr. Patel & Pharmacy",
+          category: "Medical",
+          content: "Dr. Anita Patel (Primary Care): (555) 234-8890\nCVS Pharmacy (Oak St): (555) 234-1100 — Open 8am–9pm\nBlood Type: O+  |  Allergy: Penicillin",
+          pinned: true
+        },
+        {
+          id: "note-3",
+          title: "Emergency Family Contacts",
+          category: "Family & Contacts",
+          content: "David (Son): (555) 891-3402\nSarah (Daughter): (555) 742-9918\nMrs. Henderson (Next-door neighbor — holds spare house key): (555) 310-6645",
+          pinned: true
+        },
+        {
+          id: "note-4",
+          title: "Plumber & HVAC Info",
+          category: "Home & Wi-Fi",
+          content: "Mike's Reliable Plumbing: (555) 609-4421\nCoolBreeze Heating & Air: (555) 488-7730\nFurnace Air Filter Size: 16 x 25 x 1 (Change every 3 months)",
+          pinned: false
+        },
+        {
+          id: "note-5",
+          title: "Netflix & Streaming Logins",
+          category: "Accounts",
+          content: "Account Email: mom.family2026@example.com\nNetflix Profile: Mom (PIN: 1234)\nPassword Hint: First pet's name + birth year (Max1958)",
+          pinned: false
+        },
+        {
+          id: "note-6",
+          title: "Garbage & Recycling Schedule",
+          category: "Home & Wi-Fi",
+          content: "Trash & Blue Recycling Bin: Put out Monday night for Tuesday 7:00 AM pickup.\nYard Waste: Every other Thursday.\nBulk Items: Call city (555) 019-2834 two days ahead.",
+          pinned: false
+        }
+      ];
+
+      /* ========================================================================
+         2. APPLICATION STATE
+         ======================================================================== */
+      let notes = [];
+      let selectedCategory = "All";
+      let searchQuery = "";
+      let pendingConfirmCallback = null;
+      let activeEncryptionKey = null;
+      let fallbackPasswordKey = null;
+      let idleTimerId = null;
+
+      /* ========================================================================
+         3. DOM ELEMENT REFERENCES
+         ======================================================================== */
+      const lockScreen = document.getElementById("lockScreen");
+      const appShell = document.getElementById("appShell");
+      const lockScreenTitle = document.getElementById("lockScreenTitle");
+      const lockScreenDesc = document.getElementById("lockScreenDesc");
+      const lockErrorMsg = document.getElementById("lockErrorMsg");
+      const hintDisplayBox = document.getElementById("hintDisplayBox");
+      const setupPasswordForm = document.getElementById("setupPasswordForm");
+      const unlockPasswordForm = document.getElementById("unlockPasswordForm");
+      const setupPwInput = document.getElementById("setupPwInput");
+      const setupConfirmInput = document.getElementById("setupConfirmInput");
+      const setupHintInput = document.getElementById("setupHintInput");
+      const unlockPwInput = document.getElementById("unlockPwInput");
+      const showHintBtn = document.getElementById("showHintBtn");
+
+      const searchInput = document.getElementById("searchInput");
+      const clearSearchBtn = document.getElementById("clearSearchBtn");
+      const categoryButtons = document.querySelectorAll(".pill-btn");
+      const pinnedSection = document.getElementById("pinnedSection");
+      const pinnedGrid = document.getElementById("pinnedGrid");
+      const regularSection = document.getElementById("regularSection");
+      const regularHeading = document.getElementById("regularHeading");
+      const regularGrid = document.getElementById("regularGrid");
+      const emptyState = document.getElementById("emptyState");
+      const emptyMessage = document.getElementById("emptyMessage");
+      const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+
+      // Note Modal Elements
+      const noteModal = document.getElementById("noteModal");
+      const modalHeading = document.getElementById("modalHeading");
+      const noteForm = document.getElementById("noteForm");
+      const noteIdInput = document.getElementById("noteIdInput");
+      const noteTitleInput = document.getElementById("noteTitleInput");
+      const noteCategoryInput = document.getElementById("noteCategoryInput");
+      const noteContentInput = document.getElementById("noteContentInput");
+      const notePinnedInput = document.getElementById("notePinnedInput");
+      const formError = document.getElementById("formError");
+
+      // Confirmation Modal Elements
+      const confirmModal = document.getElementById("confirmModal");
+      const confirmHeading = document.getElementById("confirmHeading");
+      const confirmText = document.getElementById("confirmText");
+      const confirmYesBtn = document.getElementById("confirmYesBtn");
+      const confirmCancelBtn = document.getElementById("confirmCancelBtn");
+
+      // Change Password Modal Elements
+      const changePwModal = document.getElementById("changePwModal");
+      const changePwForm = document.getElementById("changePwForm");
+      const changePwError = document.getElementById("changePwError");
+      const currentPwInput = document.getElementById("currentPwInput");
+      const newPwInput = document.getElementById("newPwInput");
+      const confirmNewPwInput = document.getElementById("confirmNewPwInput");
+      const updateHintInput = document.getElementById("updateHintInput");
+
+      /* ========================================================================
+         4. WEB CRYPTO (PBKDF2 + AES-GCM) & ENCRYPTED STORAGE HELPERS
+         ======================================================================== */
+      function bytesToBase64(bytes) {
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) {
+          bin += String.fromCharCode(bytes[i]);
+        }
+        return btoa(bin);
+      }
+
+      function base64ToBytes(b64) {
+        const bin = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) {
+          bytes[i] = bin.charCodeAt(i);
+        }
+        return bytes;
+      }
+
+      function getAuthRecord() {
+        try {
+          const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function saveAuthRecord(record) {
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(record));
+      }
+
+      function hasSubtleCrypto() {
+        return Boolean(window.crypto && window.crypto.subtle);
+      }
+
+      // Fallback key derivation if crypto.subtle is unavailable (e.g., non-HTTPS file context)
+      function fallbackHash(password, saltB64) {
+        const str = saltB64 + "::" + password;
+        let h1 = 0xdeadbeef;
+        let h2 = 0x41c6ce57;
+        for (let i = 0; i < str.length; i++) {
+          const ch = str.charCodeAt(i);
+          h1 = Math.imul(h1 ^ ch, 2654435761);
+          h2 = Math.imul(h2 ^ ch, 1597334677);
+        }
+        h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+        h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+        return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+      }
+
+      function fallbackXorCipher(text, secret) {
+        const bytes = new TextEncoder().encode(text);
+        const keyBytes = new TextEncoder().encode(secret);
+        const out = new Uint8Array(bytes.length);
+        for (let i = 0; i < bytes.length; i++) {
+          out[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+        }
+        return bytesToBase64(out);
+      }
+
+      function fallbackXorDecipher(b64, secret) {
+        const bytes = base64ToBytes(b64);
+        const keyBytes = new TextEncoder().encode(secret);
+        const out = new Uint8Array(bytes.length);
+        for (let i = 0; i < bytes.length; i++) {
+          out[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+        }
+        return new TextDecoder().decode(out);
+      }
+
+      async function deriveCryptoMaterials(password, saltBytes) {
+        const enc = new TextEncoder();
+        const keyMaterial = await window.crypto.subtle.importKey(
+          "raw",
+          enc.encode(password),
+          { name: "PBKDF2" },
+          false,
+          ["deriveBits", "deriveKey"]
+        );
+
+        // Derive 256-bit verifier hash (stored to verify password)
+        const verifierBits = await window.crypto.subtle.deriveBits(
+          {
+            name: "PBKDF2",
+            salt: saltBytes,
+            iterations: 100000,
+            hash: "SHA-256"
+          },
+          keyMaterial,
+          256
+        );
+
+        // Derive 256-bit AES-GCM key (used in memory to encrypt/decrypt notes)
+        const aesKey = await window.crypto.subtle.deriveKey(
+          {
+            name: "PBKDF2",
+            salt: saltBytes,
+            iterations: 100000,
+            hash: "SHA-256"
+          },
+          keyMaterial,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["encrypt", "decrypt"]
+        );
+
+        return {
+          verifierB64: bytesToBase64(new Uint8Array(verifierBits)),
+          aesKey: aesKey
+        };
+      }
+
+      async function createNewCredentials(password, hint) {
+        const saltBytes = new Uint8Array(16);
+        if (window.crypto && window.crypto.getRandomValues) {
+          window.crypto.getRandomValues(saltBytes);
+        } else {
+          for (let i = 0; i < 16; i++) saltBytes[i] = Math.floor(Math.random() * 256);
+        }
+        const saltB64 = bytesToBase64(saltBytes);
+
+        if (hasSubtleCrypto()) {
+          const mat = await deriveCryptoMaterials(password, saltBytes);
+          saveAuthRecord({
+            mode: "webcrypto",
+            salt: saltB64,
+            verifier: mat.verifierB64,
+            hint: hint.trim()
+          });
+          activeEncryptionKey = mat.aesKey;
+          fallbackPasswordKey = null;
+        } else {
+          const verifier = fallbackHash(password, saltB64);
+          saveAuthRecord({
+            mode: "fallback",
+            salt: saltB64,
+            verifier: verifier,
+            hint: hint.trim()
+          });
+          activeEncryptionKey = null;
+          fallbackPasswordKey = password + ":" + saltB64;
+        }
+      }
+
+      async function verifyPassword(password) {
+        const auth = getAuthRecord();
+        if (!auth) return false;
+        const saltBytes = base64ToBytes(auth.salt);
+
+        if (auth.mode === "webcrypto" && hasSubtleCrypto()) {
+          const mat = await deriveCryptoMaterials(password, saltBytes);
+          if (mat.verifierB64 === auth.verifier) {
+            activeEncryptionKey = mat.aesKey;
+            fallbackPasswordKey = null;
+            return true;
+          }
+          return false;
+        } else {
+          const check = fallbackHash(password, auth.salt);
+          if (check === auth.verifier) {
+            activeEncryptionKey = null;
+            fallbackPasswordKey = password + ":" + auth.salt;
+            return true;
+          }
+          return false;
+        }
+      }
+
+      async function saveNotes() {
+        try {
+          const plaintext = JSON.stringify(notes);
+          if (activeEncryptionKey && hasSubtleCrypto()) {
+            const iv = new Uint8Array(12);
+            window.crypto.getRandomValues(iv);
+            const cipherBuffer = await window.crypto.subtle.encrypt(
+              { name: "AES-GCM", iv: iv },
+              activeEncryptionKey,
+              new TextEncoder().encode(plaintext)
+            );
+            const payload = {
+              enc: "AES-GCM",
+              iv: bytesToBase64(iv),
+              data: bytesToBase64(new Uint8Array(cipherBuffer))
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          } else if (fallbackPasswordKey) {
+            const payload = {
+              enc: "FALLBACK",
+              data: fallbackXorCipher(plaintext, fallbackPasswordKey)
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          }
+        } catch (err) {
+          // Ignore storage errors gracefully
+        }
+      }
+
+      async function loadNotes() {
+        try {
+          const savedRaw = localStorage.getItem(STORAGE_KEY);
+          if (!savedRaw) {
+            notes = JSON.parse(JSON.stringify(DEMO_NOTES));
+            await saveNotes();
+            return;
+          }
+
+          const parsed = JSON.parse(savedRaw);
+          if (Array.isArray(parsed)) {
+            // Migrate any legacy unencrypted notes into encrypted format
+            notes = parsed;
+            await saveNotes();
+            return;
+          }
+
+          if (parsed && parsed.enc === "AES-GCM" && activeEncryptionKey && hasSubtleCrypto()) {
+            const iv = base64ToBytes(parsed.iv);
+            const cipherBytes = base64ToBytes(parsed.data);
+            const plainBuffer = await window.crypto.subtle.decrypt(
+              { name: "AES-GCM", iv: iv },
+              activeEncryptionKey,
+              cipherBytes
+            );
+            notes = JSON.parse(new TextDecoder().decode(plainBuffer));
+          } else if (parsed && parsed.enc === "FALLBACK" && fallbackPasswordKey) {
+            const plain = fallbackXorDecipher(parsed.data, fallbackPasswordKey);
+            notes = JSON.parse(plain);
+          } else {
+            notes = JSON.parse(JSON.stringify(DEMO_NOTES));
+          }
+        } catch (err) {
+          notes = JSON.parse(JSON.stringify(DEMO_NOTES));
+        }
+      }
+
+      /* ========================================================================
+         4B. LOCK SCREEN & AUTO-LOCK MANAGEMENT
+         ======================================================================== */
+      function showLockScreen() {
+        activeEncryptionKey = null;
+        fallbackPasswordKey = null;
+        notes = [];
+        pinnedGrid.innerHTML = "";
+        regularGrid.innerHTML = "";
+        closeNoteModal();
+        closeConfirmModal();
+        closeChangePwModal();
+
+        appShell.style.display = "none";
+        lockScreen.classList.remove("hidden");
+        lockErrorMsg.style.display = "none";
+        hintDisplayBox.style.display = "none";
+
+        const auth = getAuthRecord();
+        if (!auth) {
+          lockScreenTitle.textContent = "Mom's Important Notes";
+          lockScreenDesc.textContent = "Create a secret password to keep phone numbers, codes, and logins safe on this device.";
+          setupPasswordForm.style.display = "block";
+          unlockPasswordForm.style.display = "none";
+          setupPwInput.value = "";
+          setupConfirmInput.value = "";
+          setupHintInput.value = "";
+          setupPwInput.focus();
+        } else {
+          lockScreenTitle.textContent = "Mom's Important Notes — Locked";
+          lockScreenDesc.textContent = "Enter your secret password to view your private notes.";
+          setupPasswordForm.style.display = "none";
+          unlockPasswordForm.style.display = "block";
+          unlockPwInput.value = "";
+          showHintBtn.style.display = auth.hint ? "inline-flex" : "none";
+          unlockPwInput.focus();
+        }
+      }
+
+      async function unlockApp() {
+        await loadNotes();
+        lockScreen.classList.add("hidden");
+        appShell.style.display = "block";
+        renderNotes();
+        resetIdleTimer();
+      }
+
+      function resetIdleTimer() {
+        if (idleTimerId) clearTimeout(idleTimerId);
+        if (appShell.style.display === "none") return;
+        idleTimerId = setTimeout(function () {
+          showLockScreen();
+        }, IDLE_LOCK_MS);
+      }
+
+      ["click", "keydown", "touchstart", "mousemove"].forEach(function (evt) {
+        document.addEventListener(evt, resetIdleTimer, { passive: true });
+      });
+
+      /* ========================================================================
+         5. RENDERING NOTES
+         ======================================================================== */
+      function getCategoryClass(category) {
+        if (category === "Medical") return "cat-Medical";
+        if (category === "Home & Wi-Fi") return "cat-Home";
+        if (category === "Family & Contacts") return "cat-Family";
+        if (category === "Accounts") return "cat-Accounts";
+        return "cat-Home";
+      }
+
+      function createNoteCard(note) {
+        const card = document.createElement("article");
+        card.className = "note-card" + (note.pinned ? " pinned" : "");
+
+        // Top row: Category badge & Pinned indicator
+        const topDiv = document.createElement("div");
+
+        const headerRow = document.createElement("div");
+        headerRow.className = "card-top";
+
+        const badge = document.createElement("span");
+        badge.className = "category-badge " + getCategoryClass(note.category);
+        badge.textContent = note.category;
+        headerRow.appendChild(badge);
+
+        if (note.pinned) {
+          const pinTag = document.createElement("span");
+          pinTag.className = "pin-indicator";
+          pinTag.innerHTML = "&#11088; Pinned";
+          headerRow.appendChild(pinTag);
+        }
+
+        const titleEl = document.createElement("h3");
+        titleEl.className = "note-title";
+        titleEl.textContent = note.title;
+
+        const bodyEl = document.createElement("div");
+        bodyEl.className = "note-body";
+        bodyEl.textContent = note.content;
+
+        topDiv.appendChild(headerRow);
+        topDiv.appendChild(titleEl);
+        topDiv.appendChild(bodyEl);
+
+        // Bottom row: Copy, Pin/Unpin, Edit, Delete buttons
+        const actionsDiv = document.createElement("div");
+        actionsDiv.className = "card-actions";
+
+        // Copy Button
+        const copyBtn = document.createElement("button");
+        copyBtn.type = "button";
+        copyBtn.className = "btn-copy";
+        copyBtn.innerHTML = "&#128203; Copy";
+        copyBtn.setAttribute("aria-label", "Copy " + note.title);
+        copyBtn.addEventListener("click", function () {
+          copyTextToClipboard(note.title + "\n" + note.content, copyBtn);
+        });
+
+        // Pin / Unpin Toggle Button
+        const pinBtn = document.createElement("button");
+        pinBtn.type = "button";
+        pinBtn.className = "btn-icon-action";
+        pinBtn.textContent = note.pinned ? "Unpin" : "Pin";
+        pinBtn.setAttribute("aria-label", (note.pinned ? "Unpin " : "Pin ") + note.title);
+        pinBtn.addEventListener("click", function () {
+          togglePin(note.id);
+        });
+
+        // Edit Button
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "btn-icon-action";
+        editBtn.textContent = "Edit";
+        editBtn.setAttribute("aria-label", "Edit " + note.title);
+        editBtn.addEventListener("click", function () {
+          openEditModal(note);
+        });
+
+        // Delete Button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "btn-icon-action btn-delete";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("aria-label", "Delete " + note.title);
+        deleteBtn.addEventListener("click", function () {
+          openConfirmModal(
+            "Delete this note?",
+            'Are you sure you want to delete "' + note.title + '"?',
+            "Yes, Delete",
+            function () {
+              deleteNote(note.id);
+            }
+          );
+        });
+
+        actionsDiv.appendChild(copyBtn);
+        actionsDiv.appendChild(pinBtn);
+        actionsDiv.appendChild(editBtn);
+        actionsDiv.appendChild(deleteBtn);
+
+        card.appendChild(topDiv);
+        card.appendChild(actionsDiv);
+
+        return card;
+      }
+
+      function renderNotes() {
+        const query = searchQuery.trim().toLowerCase();
+
+        const filtered = notes.filter(function (note) {
+          const matchesCategory =
+            selectedCategory === "All" || note.category === selectedCategory;
+          const matchesSearch =
+            query === "" ||
+            note.title.toLowerCase().includes(query) ||
+            note.content.toLowerCase().includes(query) ||
+            note.category.toLowerCase().includes(query);
+          return matchesCategory && matchesSearch;
+        });
+
+        const pinnedNotes = filtered.filter(function (n) { return n.pinned; });
+        const regularNotes = filtered.filter(function (n) { return !n.pinned; });
+
+        pinnedGrid.innerHTML = "";
+        regularGrid.innerHTML = "";
+
+        if (filtered.length === 0) {
+          pinnedSection.style.display = "none";
+          regularSection.style.display = "none";
+          emptyState.style.display = "block";
+          emptyMessage.textContent =
+            query !== ""
+              ? 'No notes found matching "' + searchQuery + '".'
+              : "No notes in this category yet.";
+          return;
+        }
+
+        emptyState.style.display = "none";
+
+        if (pinnedNotes.length > 0) {
+          pinnedSection.style.display = "block";
+          pinnedNotes.forEach(function (note) {
+            pinnedGrid.appendChild(createNoteCard(note));
+          });
+        } else {
+          pinnedSection.style.display = "none";
+        }
+
+        if (regularNotes.length > 0) {
+          regularSection.style.display = "block";
+          regularHeading.textContent =
+            pinnedNotes.length > 0 ? "Other Notes" : (selectedCategory === "All" ? "All Notes" : selectedCategory);
+          regularNotes.forEach(function (note) {
+            regularGrid.appendChild(createNoteCard(note));
+          });
+        } else {
+          regularSection.style.display = "none";
+        }
+      }
+
+      /* ========================================================================
+         6. INTERACTIONS (Copy, Pin, Add, Edit, Delete, Reset)
+         ======================================================================== */
+      function copyTextToClipboard(text, buttonEl) {
+        let success = false;
+
+        // Reliable textarea fallback that works everywhere including sandboxed iframes
+        const tempTextarea = document.createElement("textarea");
+        tempTextarea.value = text;
+        tempTextarea.style.position = "fixed";
+        tempTextarea.style.left = "-9999px";
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+
+        try {
+          success = document.execCommand("copy");
+        } catch (err) {
+          success = false;
+        }
+        document.body.removeChild(tempTextarea);
+
+        if (!success && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(function () {});
+        }
+
+        // Instant visual feedback on button
+        const originalHTML = buttonEl.innerHTML;
+        buttonEl.classList.add("copied");
+        buttonEl.innerHTML = "&#10003; Copied!";
+
+        setTimeout(function () {
+          buttonEl.classList.remove("copied");
+          buttonEl.innerHTML = originalHTML;
+        }, 1800);
+      }
+
+      function togglePin(id) {
+        notes = notes.map(function (note) {
+          if (note.id === id) {
+            return Object.assign({}, note, { pinned: !note.pinned });
+          }
+          return note;
+        });
+        saveNotes();
+        renderNotes();
+      }
+
+      function deleteNote(id) {
+        notes = notes.filter(function (note) {
+          return note.id !== id;
+        });
+        saveNotes();
+        renderNotes();
+      }
+
+      /* ========================================================================
+         7. MODAL CONTROLS
+         ======================================================================== */
+      function openAddModal() {
+        modalHeading.textContent = "Add Important Note";
+        noteIdInput.value = "";
+        noteTitleInput.value = "";
+        noteCategoryInput.value = selectedCategory !== "All" ? selectedCategory : "Home & Wi-Fi";
+        noteContentInput.value = "";
+        notePinnedInput.checked = false;
+        formError.style.display = "none";
+        noteModal.classList.add("open");
+        noteTitleInput.focus();
+      }
+
+      function openEditModal(note) {
+        modalHeading.textContent = "Edit Important Note";
+        noteIdInput.value = note.id;
+        noteTitleInput.value = note.title;
+        noteCategoryInput.value = note.category;
+        noteContentInput.value = note.content;
+        notePinnedInput.checked = Boolean(note.pinned);
+        formError.style.display = "none";
+        noteModal.classList.add("open");
+        noteTitleInput.focus();
+      }
+
+      function closeNoteModal() {
+        noteModal.classList.remove("open");
+      }
+
+      function openConfirmModal(title, message, yesLabel, onConfirm) {
+        confirmHeading.textContent = title;
+        confirmText.textContent = message;
+        confirmYesBtn.textContent = yesLabel;
+        pendingConfirmCallback = onConfirm;
+        confirmModal.classList.add("open");
+        confirmCancelBtn.focus();
+      }
+
+      function closeConfirmModal() {
+        confirmModal.classList.remove("open");
+        pendingConfirmCallback = null;
+      }
+
+      function openChangePwModal() {
+        const auth = getAuthRecord();
+        changePwError.style.display = "none";
+        currentPwInput.value = "";
+        newPwInput.value = "";
+        confirmNewPwInput.value = "";
+        updateHintInput.value = auth && auth.hint ? auth.hint : "";
+        changePwModal.classList.add("open");
+        currentPwInput.focus();
+      }
+
+      function closeChangePwModal() {
+        changePwModal.classList.remove("open");
+      }
+
+      /* ========================================================================
+         8. EVENT LISTENERS
+         ======================================================================== */
+      // Show/Hide Password Toggles
+      document.querySelectorAll(".btn-toggle-pw").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const targetId = btn.getAttribute("data-target");
+          const input = document.getElementById(targetId);
+          if (!input) return;
+          const isHidden = input.type === "password";
+          input.type = isHidden ? "text" : "password";
+          btn.textContent = isHidden ? "Hide" : "Show";
+          input.focus();
+        });
+      });
+
+      // First-Time Setup Password Submit
+      setupPasswordForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const pw = setupPwInput.value;
+        const confirm = setupConfirmInput.value;
+        const hint = setupHintInput.value;
+
+        if (!pw || pw.trim().length < 3) {
+          lockErrorMsg.textContent = "Please choose a password with at least 3 characters.";
+          lockErrorMsg.style.display = "block";
+          return;
+        }
+        if (pw !== confirm) {
+          lockErrorMsg.textContent = "The two passwords do not match. Please try again.";
+          lockErrorMsg.style.display = "block";
+          return;
+        }
+
+        lockErrorMsg.style.display = "none";
+        await createNewCredentials(pw, hint);
+        await unlockApp();
+      });
+
+      // Quick Demo Password Helper (1234)
+      document.getElementById("quickDemoPwBtn").addEventListener("click", async function () {
+        await createNewCredentials("1234", "The quick demo password is 1 2 3 4");
+        await unlockApp();
+      });
+
+      // Returning Unlock Submit
+      unlockPasswordForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const pw = unlockPwInput.value;
+        if (!pw) {
+          lockErrorMsg.textContent = "Please enter your password.";
+          lockErrorMsg.style.display = "block";
+          return;
+        }
+
+        const ok = await verifyPassword(pw);
+        if (!ok) {
+          lockErrorMsg.textContent = "Incorrect password. Please try again.";
+          lockErrorMsg.style.display = "block";
+          unlockPwInput.select();
+          return;
+        }
+
+        lockErrorMsg.style.display = "none";
+        await unlockApp();
+      });
+
+      // Show Hint Button
+      showHintBtn.addEventListener("click", function () {
+        const auth = getAuthRecord();
+        if (auth && auth.hint) {
+          hintDisplayBox.textContent = "Hint: " + auth.hint;
+          hintDisplayBox.style.display = "block";
+        }
+      });
+
+      // Forgot Password / Two-Step Reset App
+      document.getElementById("forgotResetBtn").addEventListener("click", function () {
+        openConfirmModal(
+          "Forgot Password? (Step 1 of 2)",
+          "Because your notes are encrypted for privacy, resetting the password will erase all saved notes on this device.",
+          "Continue to Step 2",
+          function () {
+            openConfirmModal(
+              "Final Confirmation (Step 2 of 2)",
+              "Are you completely sure you want to wipe the old password and restore the default sample notes?",
+              "Yes, Reset Everything",
+              function () {
+                localStorage.removeItem(AUTH_STORAGE_KEY);
+                localStorage.removeItem(STORAGE_KEY);
+                showLockScreen();
+              }
+            );
+          }
+        );
+      });
+
+      // Header Lock Now Button
+      document.getElementById("lockNowBtn").addEventListener("click", function () {
+        showLockScreen();
+      });
+
+      // Change Password Modal Controls
+      document.getElementById("openChangePwBtn").addEventListener("click", openChangePwModal);
+      document.getElementById("closeChangePwBtn").addEventListener("click", closeChangePwModal);
+      document.getElementById("cancelChangePwBtn").addEventListener("click", closeChangePwModal);
+
+      changePwForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const curr = currentPwInput.value;
+        const next = newPwInput.value;
+        const conf = confirmNewPwInput.value;
+        const hint = updateHintInput.value;
+
+        const validCurrent = await verifyPassword(curr);
+        if (!validCurrent) {
+          changePwError.textContent = "Your current password is incorrect.";
+          changePwError.style.display = "block";
+          return;
+        }
+        if (!next || next.trim().length < 3) {
+          changePwError.textContent = "Please choose a new password with at least 3 characters.";
+          changePwError.style.display = "block";
+          return;
+        }
+        if (next !== conf) {
+          changePwError.textContent = "The new passwords do not match.";
+          changePwError.style.display = "block";
+          return;
+        }
+
+        changePwError.style.display = "none";
+        await createNewCredentials(next, hint);
+        await saveNotes(); // Re-encrypt existing notes with the new key
+        closeChangePwModal();
+      });
+
+      // Search input
+      searchInput.addEventListener("input", function (e) {
+        searchQuery = e.target.value;
+        clearSearchBtn.style.display = searchQuery.length > 0 ? "inline-flex" : "none";
+        renderNotes();
+      });
+
+      clearSearchBtn.addEventListener("click", function () {
+        searchQuery = "";
+        searchInput.value = "";
+        clearSearchBtn.style.display = "none";
+        searchInput.focus();
+        renderNotes();
+      });
+
+      // Category filter pills
+      categoryButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          categoryButtons.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          selectedCategory = btn.getAttribute("data-category");
+          renderNotes();
+        });
+      });
+
+      // Reset filters button in empty state
+      resetFiltersBtn.addEventListener("click", function () {
+        searchQuery = "";
+        searchInput.value = "";
+        clearSearchBtn.style.display = "none";
+        selectedCategory = "All";
+        categoryButtons.forEach(function (b) {
+          b.classList.toggle("active", b.getAttribute("data-category") === "All");
+        });
+        renderNotes();
+      });
+
+      // Open/Close Add Modal
+      document.getElementById("openAddModalBtn").addEventListener("click", openAddModal);
+      document.getElementById("closeModalBtn").addEventListener("click", closeNoteModal);
+      document.getElementById("cancelModalBtn").addEventListener("click", closeNoteModal);
+
+      // Save Add/Edit Form
+      noteForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const title = noteTitleInput.value.trim();
+        const category = noteCategoryInput.value;
+        const content = noteContentInput.value.trim();
+        const pinned = notePinnedInput.checked;
+
+        if (!title || !content) {
+          formError.style.display = "block";
+          return;
+        }
+
+        const existingId = noteIdInput.value;
+        if (existingId) {
+          notes = notes.map(function (note) {
+            if (note.id === existingId) {
+              return { id: existingId, title: title, category: category, content: content, pinned: pinned };
+            }
+            return note;
+          });
+        } else {
+          const newNote = {
+            id: "note-" + Date.now(),
+            title: title,
+            category: category,
+            content: content,
+            pinned: pinned
+          };
+          notes.unshift(newNote);
+        }
+
+        saveNotes();
+        closeNoteModal();
+        renderNotes();
+      });
+
+      // Confirmation Modal Buttons
+      confirmCancelBtn.addEventListener("click", closeConfirmModal);
+      confirmYesBtn.addEventListener("click", function () {
+        if (typeof pendingConfirmCallback === "function") {
+          pendingConfirmCallback();
+        }
+        closeConfirmModal();
+      });
+
+      // Close modals when clicking outside the box or pressing Escape
+      noteModal.addEventListener("click", function (e) {
+        if (e.target === noteModal) closeNoteModal();
+      });
+      confirmModal.addEventListener("click", function (e) {
+        if (e.target === confirmModal) closeConfirmModal();
+      });
+      changePwModal.addEventListener("click", function (e) {
+        if (e.target === changePwModal) closeChangePwModal();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeNoteModal();
+          closeConfirmModal();
+          closeChangePwModal();
+        }
+      });
+
+      // Reset Demo Data in Footer
+      document.getElementById("resetDemoBtn").addEventListener("click", function () {
+        openConfirmModal(
+          "Reset sample notes?",
+          "This will restore the original 6 example notes and remove any changes you made.",
+          "Yes, Reset Notes",
+          async function () {
+            notes = JSON.parse(JSON.stringify(DEMO_NOTES));
+            await saveNotes();
+            searchQuery = "";
+            searchInput.value = "";
+            clearSearchBtn.style.display = "none";
+            selectedCategory = "All";
+            categoryButtons.forEach(function (b) {
+              b.classList.toggle("active", b.getAttribute("data-category") === "All");
+            });
+            renderNotes();
+          }
+        );
+      });
+
+      // Initialize App in Locked State
+      showLockScreen();
+    })();
+  </script>
+</body>
+</html>
